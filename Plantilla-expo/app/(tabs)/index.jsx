@@ -1,13 +1,18 @@
-import { View, Text, ScrollView, Image, StyleSheet, FlatList } from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
 
 import { useEffect, useState } from 'react';
+
+import acciones from '../../assets/acciones.jpg';
+import dolar from '../../assets/dolar.png';
+import bonos from '../../assets/bonos.jpg';
 
 export default function HomeTabScreen() {
     
     const [users, setUsers] = useState([])
 
 
-    useEffect(() => {
+    /*Se ejecuta al inciar la vista*/ 
+    useEffect(() => { 
       const fetchUsers = async () => {
         try {
             const respuesta = await fetch('https://randomuser.me/api/?results=1500')
@@ -25,8 +30,48 @@ export default function HomeTabScreen() {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.name}>Home Screen</Text>
-        <FlatList
+        
+        <Text style={styles.titulo}>Cotizaciones</Text>
+        <View style={styles.container}>
+            <Text style={styles.name}>Dolar</Text>
+            <Image source={dolar}  style={styles.image}/>
+            <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    
+            >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
+            <Text style={styles.name}>Bonos</Text>
+            <Image source={bonos}  style={styles.image}/>
+            <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => Alert.alert('Ir a vista de Bonos')}
+                    
+            >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+        </View>
+
+        <View style={styles.container}>
+            <Text style={styles.name}>Acciones</Text>
+            <Image source={acciones} style={styles.image}/>
+            <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => Alert.alert('Ir a vista de Acciones')}
+                
+            >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+            
+        </View>
+
+        
+        
+       {/* Lista de usuarios */}
+        {/* <FlatList
             data={users}
             keyExtractor={(item) => item.login.uuid}
             renderItem={({item}) => (
@@ -40,7 +85,8 @@ export default function HomeTabScreen() {
                 </View>
             )}
         >
-        </FlatList>
+        </FlatList>  */}
+
     </View>
   )
 }
@@ -48,8 +94,10 @@ export default function HomeTabScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'wheat',
-        padding: 30
+        backgroundColor: 'white',
+        marginTop: 10,
+        paddingLeft: 20,
+        paddingRight: 20
     },
     userContainer:{
         flexDirection: 'row',
@@ -65,10 +113,11 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     image:{
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        marginRight: 15,
+        width: 'auto',
+        height: 100,
+        borderRadius: 15,
+        
+        marginTop:20,
     },
     infoContainer: {
         flex: 1
@@ -78,9 +127,29 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333'
     },
+    titulo:{
+        fontSize: 25,
+        textAlign: 'center',
+        marginTop: 50,
+        marginBottom: 20,
+        fontWeight: '800',
+    },
     detalle:{
         fontSize: 16,
         color: '#666'
-    }
+    },
+    button:{
+        backgroundColor: '#000', // Fondo negro
+        paddingVertical: 10, // Espaciado vertical
+        paddingHorizontal: 20, // Espaciado horizontal
+        borderRadius: 5, // Bordes redondeados
+        alignItems: 'center', // Centra el contenido
+        marginTop: 20, // Margen superior
+        width: 'auto'
+    },
+    buttonText: {
+        color: 'white', // Color del texto
+        
+    },
     
 })
