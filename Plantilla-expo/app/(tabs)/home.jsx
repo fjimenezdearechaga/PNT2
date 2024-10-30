@@ -1,6 +1,8 @@
 import { View, Text, ScrollView, Image, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
+import { useRouter } from 'expo-router';
+import { useEffect, useState, useContext } from 'react';
+import { DolarContext } from "../../context/DolarContext";
 
-import { useEffect, useState } from 'react';
 
 import acciones from '../../assets/acciones.jpg';
 import dolar from '../../assets/dolar.png';
@@ -9,7 +11,9 @@ import bonos from '../../assets/bonos.jpg';
 export default function HomeTabScreen() {
     
     const [users, setUsers] = useState([])
-
+    const { dolares } = useContext(DolarContext);
+    
+    const router  = useRouter();
 
     /*Se ejecuta al inciar la vista*/ 
     useEffect(() => { 
@@ -34,10 +38,12 @@ export default function HomeTabScreen() {
         <Text style={styles.titulo}>Cotizaciones</Text>
         <View style={styles.container}>
             <Text style={styles.name}>Dolar</Text>
+           
             <Image source={dolar}  style={styles.image}/>
             <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    onPress={() => router.push('/dolar/dolar')}
                     
             >
                 <Text style={styles.buttonText}>Ver</Text>
@@ -49,6 +55,7 @@ export default function HomeTabScreen() {
             <TouchableOpacity
                     style={styles.button}
                     onPress={() => Alert.alert('Ir a vista de Bonos')}
+                    
                     
             >
                 <Text style={styles.buttonText}>Ver</Text>
