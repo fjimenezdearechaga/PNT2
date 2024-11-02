@@ -1,11 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, View,StyleSheet,Image } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
+import { Button } from "react-native-web";
+import { useRouter } from "expo-router";
 
 export default function TabPerfil(){
 
     const{user} = useContext(AuthContext)
     const[usuario,setUsuario] = useState({})
+    const router= useRouter()
 
     useEffect(()=>{
         async function fetchData (){
@@ -23,10 +26,27 @@ export default function TabPerfil(){
     return (
         <View style={styles.container}>
             <Text style={styles.titulo}>Perfil de Usuario</Text>
-            <Image style={styles.image} source={{uri:usuario.avatar}}/>
+            <View style={styles.userContainer}>
+                <Image style={styles.image} source={{uri:usuario.avatar}}/>
+                <Button 
+                title="Cambiar Imagen"
+                style={styles.button}
+                onPress={()=>router.push('/cambiarImagen')}/>
+            </View>
+            <View style={styles.userContainer}>
             <Text>Nombre de Usuario: {usuario.userName}</Text>
+            </View>
+            <View style={styles.userContainer}>
             <Text>Password: {usuario.password}</Text>
+            <Button 
+                title="Cambiar Password"
+                style={styles.button}
+                onPress={()=>router.push('/cambiarPass')}/>
+            </View>
+            <View style={styles.userContainer}>
             <Text>Email: {usuario.email}</Text>
+            </View>
+           
         </View>
     )
 
@@ -84,11 +104,11 @@ const styles = StyleSheet.create({
     button:{
         backgroundColor: '#000', // Fondo negro
         paddingVertical: 10, // Espaciado vertical
-        paddingHorizontal: 20, // Espaciado horizontal
+        paddingHorizontal: 200, // Espaciado horizontal
         borderRadius: 5, // Bordes redondeados
         alignItems: 'center', // Centra el contenido
-        marginTop: 20, // Margen superior
-        width: 'auto'
+        marginTop: 10, // Margen superior
+        width: 100
     },
     buttonText: {
         color: 'white', // Color del texto

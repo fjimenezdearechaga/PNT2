@@ -1,5 +1,6 @@
 import { createContext, useEffect,useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useRouter } from "expo-router";
 
 export const AuthContext = createContext()
 
@@ -8,6 +9,7 @@ export const AuthProvider = ({children})=>{
 
     const [status,setStatus] = useState('checking')
     const [user,setUser] = useState(null)
+    const router = useRouter()
 
     useEffect(()=>{
         const cargarEstadoAuth = async()=>{
@@ -90,11 +92,68 @@ export const AuthProvider = ({children})=>{
         alert('Error en la autenticacion')
       }
     }
-  
+
+    const cambiarImagen = async(uriAvatar,user)=>{
+      try{
+        const body = JSON.stringify({
+          userName: user.userName,
+          email: user.email,
+          password: user.password,
+          avatar: uriAvatar
+        })
+        const response = await fetch(`https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios/${user.id}`, {
+          method: 'PUT',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: body
+        });
+        if(response.ok){
+          alert('Cambio de Imagen Exitoso')
+          await AsyncStorage.setItem('userData',JSON.stringify(body))
+          setUser(body)
+          router.push('/(tabs)/perfil')
+        }else{
+          alert('Error al cambiar la imagen')
+        }
+        }catch(error){
+        console.error(error)
+      }
+    }
+
+    const cambiarPassword = async(newPass,user)=>{
+      try{
+        const body = JSON.stringify({
+          userName: user.userName,
+          email: user.email,
+          password: newPass,
+          avatar: user.avatar
+        })
+        const response = await fetch(`https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios/${user.id}`, {
+          method: 'PUT',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: body
+        });
+        if(response.ok){
+          alert('Cambio de Password Exitoso')
+          await AsyncStorage.setItem('userData',JSON.stringify(body))
+          setUser(body)
+          router.push('/(tabs)/perfil')
+        }else{
+          alert('Error al cambiar la password')
+        }
+        }catch(error){
+        console.error(error)
+      }
+    }
+
+    
 
 
     return (
-        <AuthContext.Provider value={{login,register,status,user,setUser}}>
+        <AuthContext.Provider value={{login,register,status,user,setUser,cambiarImagen,cambiarPassword}}>
         {children}
         </AuthContext.Provider>
     )

@@ -17,6 +17,8 @@ export default function RootLayout(){
                 <Stack>
                     <Stack.Screen name="index" options={{ headerShown: false }} />
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="cambiarPass" options={{headerShown:false}}/>
+                    <Stack.Screen name="cambiarImagen" options={{headerShown:false}}/>
                 </Stack>
             </DolarProvider>
         </AuthProvider>

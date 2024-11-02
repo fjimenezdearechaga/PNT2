@@ -15,21 +15,6 @@ export default function HomeTabScreen() {
     
     const router  = useRouter();
 
-    /*Se ejecuta al inciar la vista*/ 
-    useEffect(() => { 
-      const fetchUsers = async () => {
-        try {
-            const respuesta = await fetch('https://randomuser.me/api/?results=1500')
-            const data = await respuesta.json()
-            setUsers(data.results)
-        } catch (error) {
-            console.error('error: ', error)
-        }
-      }
-
-      fetchUsers()
-    }, [])
-    
 
 
   return (
