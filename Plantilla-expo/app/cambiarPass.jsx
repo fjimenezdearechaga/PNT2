@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View,StyleSheet,TextInput, Button } from 'react-native'
+import { View,StyleSheet,TextInput, Button,Text } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 
 export default function cambiarPass () {
@@ -26,7 +26,9 @@ const cambiarPass = ()=>{
 
   return (
     <View>
-        <View style={styles.titulo}>Cambiar Password</View>
+        <View style={styles.titulo}>
+            <Text>Cambiar Password de Perfil</Text>
+        </View>
         <View style={styles.container}>
         <TextInput
         style={styles.input}
