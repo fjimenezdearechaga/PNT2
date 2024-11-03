@@ -1,8 +1,6 @@
 import { useContext } from "react";
-import { FlatList, StyleSheet, View,Text } from "react-native";
-// import { ProductContext } from "../../context/ProductContext";
-// import { ProductCard } from "../../components/products/ProductCard";
-// import { useRouter } from 'expo-router';
+import { FlatList, StyleSheet, View, Text, Button } from "react-native";
+import { useRouter } from 'expo-router';
 import { TransactionContext } from "../../context/TransactionContext";
 
 export default function Transactions(){
@@ -10,7 +8,7 @@ export default function Transactions(){
 
     const { transactions } = useContext(TransactionContext);
 
-    // const router  = useRouter();
+    const router  = useRouter();
 
 
     const renderItem = ({ item }) => (
@@ -37,6 +35,13 @@ export default function Transactions(){
 
     return (
         <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <Button
+                    title="Nueva transaccion"
+                    onPress={() => router.push('/transactions/addTransaction')}
+                    />
+                </View>
+
                 <FlatList 
                     data={transactions} // si no es una lista con varios datos no muestra nada
                     keyExtractor={(item) => item.id} // Asegúrate de que casa sea único
@@ -54,9 +59,12 @@ const styles = StyleSheet.create({
         marginBottom: 40,
         justifyContent: 'center'
     },
-    button:{
-        
-    },
+    buttonContainer:{
+        marginEnd: 40,
+        marginStart: 40,
+        marginBottom: 40,
+        color: 'yellow'
+    },  
     dataContainer: {
         marginEnd: 40,
         marginStart: 40,

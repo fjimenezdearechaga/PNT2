@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState } from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
@@ -7,18 +8,17 @@ import { createContext, useContext, useEffect, useState } from "react"
 export const TransactionContext = createContext()
 
 export const TransactionProvider = ({children}) => {
-
-   // const { user, setUser, status } = useContext(AuthContext)
-
     const [transactions, setTransactionHistory] = useState([])
-   // const [cartItems, setCartItems] = useState( user?.cart  || [])
 
     const fetchTransactions = async () => {
         try {
-            //const respuesta = await fetch('https://66fc865cc3a184a84d173c40.mockapi.io/api/v1/productos')
-            const respuesta = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions') 
+            const userData = await AsyncStorage.getItem('userData');
+            const userEmail = JSON.parse(JSON.parse(userData)).email
+            const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
+            const respuesta = await fetch(uri) 
             const data = await respuesta.json()
-            setTransactionHistory(data)
+            const dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+            setTransactionHistory(dataSorted)
         } catch (error) {
             console.error('Error en el fetch: ', error)
         }
@@ -29,8 +29,34 @@ export const TransactionProvider = ({children}) => {
     }, [])
 
 
+    const addTransaction = async (newTransaction) => {
+
+        try {
+            const response = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+
+                },
+                body: JSON.stringify(newTransaction)
+            })
+            if (response.ok) {
+                const transactionCreated = await response.json();
+                const dataSorted = ( prevProducts) => [...prevProducts, transactionCreated].sort((a, b) => b.transactionDate - a.transactionDate);
+
+                setTransactionHistory(dataSorted)
+            } else{
+                alert('Error en la carga de la transaccion')
+            }
+        } catch (error) {
+            console.error('Error en la carga de la transaccion', error)
+        }
+    }
+
+
+
     return (
-        <TransactionContext.Provider value={{ transactions, fetchTransactions }}>
+        <TransactionContext.Provider value={{ transactions, fetchTransactions, addTransaction}}>
             {children}
         </TransactionContext.Provider>
     )
