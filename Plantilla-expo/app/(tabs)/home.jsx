@@ -3,16 +3,16 @@ import { useRouter } from 'expo-router';
 import { useEffect, useState, useContext } from 'react';
 import { DolarContext } from "../../context/DolarContext";
 
-
 import acciones from '../../assets/acciones.jpg';
 import dolar from '../../assets/dolar.png';
 import bonos from '../../assets/bonos.jpg';
+import transactions from '../../assets/transactions.jpg';
+
 
 export default function HomeTabScreen() {
     
     const [users, setUsers] = useState([])
     const { dolares } = useContext(DolarContext);
-    
     const router  = useRouter();
 
 
@@ -22,6 +22,19 @@ export default function HomeTabScreen() {
         
         <Text style={styles.titulo}>Cotizaciones</Text>
         <View style={styles.container}>
+            <Text style={styles.name}>Historial de transacciones</Text>
+           
+            <Image source={transactions}  style={styles.image}/>
+            <TouchableOpacity
+                    style={styles.button}
+                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    onPress={() => router.push('/transactions/transactions')}
+                    
+            >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+        </View>
+                <View style={styles.container}>
             <Text style={styles.name}>Dolar</Text>
            
             <Image source={dolar}  style={styles.image}/>

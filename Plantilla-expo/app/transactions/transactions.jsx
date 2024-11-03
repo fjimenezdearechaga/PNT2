@@ -3,36 +3,43 @@ import { FlatList, StyleSheet, View,Text } from "react-native";
 // import { ProductContext } from "../../context/ProductContext";
 // import { ProductCard } from "../../components/products/ProductCard";
 // import { useRouter } from 'expo-router';
-import { DolarContext } from "../../context/DolarContext";
+import { TransactionContext } from "../../context/TransactionContext";
 
-export default function Dolar(){
+export default function Transactions(){
 
 
-    const { dolares } = useContext(DolarContext);
+    const { transactions } = useContext(TransactionContext);
 
     // const router  = useRouter();
 
 
     const renderItem = ({ item }) => (
-        <View  style={styles.dataContainer}>  
-            <View style={styles.infoContainer}>
-                <Text style={styles.name}>Moneda: {item.moneda}</Text>
-                <Text style={styles.name}>Compra: <b>{item.compra}</b></Text>
-                
-            </View>
-            <View style={styles.infoContainer}>
-                <Text style={styles.name}>Nombre: {item.nombre}</Text>
-                <Text style={styles.name}>Venta: <b>{item.venta}</b></Text>
-            </View>
-            <Text style={styles.dateRefreshed}>Ultima Actualización: {new Date(item.fechaActualizacion).toLocaleString()}</Text>
+        <View style={styles.dataContainer}>  
+        <View style={styles.infoContainer}>
+            <Text>Operacion de {item.amount > 0 ? 'compra': 'venta'}</Text>
+        </View>
+        <View style={styles.infoContainer}>
+            <Text>Instrumento: {item.instrument}</Text>
+                <Text>
+                Cantidad: <b style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>
+                    {item.amount}
+                    </b>
+                </Text>
+        </View>
+        <View style={styles.infoContainer}>
+            <Text>Cotizacion: {item.rate}</Text>
+            <Text>Total: <b style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>{item.rate * item.amount}</b></Text>
+        </View>
+        <Text style={styles.dateRefreshed}>Fecha de transaccion: {new Date(item.transactionDate).toLocaleString()}</Text>
+
         </View>
     )
 
     return (
         <View style={styles.container}>
                 <FlatList 
-                    data={dolares} // si no es una lista con varios datos no muestra nada
-                    keyExtractor={(item) => item.casa} // Asegúrate de que casa sea único
+                    data={transactions} // si no es una lista con varios datos no muestra nada
+                    keyExtractor={(item) => item.id} // Asegúrate de que casa sea único
                     renderItem={renderItem}
                     contentContainerStyle={styles.flatListContainer}
                 />
@@ -90,8 +97,11 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontSize: 12
     },
-    name: {
-
+    positiveAmount: {
+        color: 'green'
+    },
+    negativeAmount: {
+        color: 'red'
     },
     flatListContainer: {
         justifyContent: 'center'
