@@ -30,7 +30,7 @@ export const AuthProvider = ({children})=>{
         const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
         const data = await response.json()
         
-        const user = data.find( u => u.usuario === usuario && u.password === password );
+        const user = data.find( u => u.userName === usuario && u.password === password );
   
         if(user){
             await AsyncStorage.setItem('isAuthenticated','true')
@@ -39,6 +39,7 @@ export const AuthProvider = ({children})=>{
             setStatus('authenticated')
         }else{
             setStatus('unauthenticated')
+            alert('Clave erronea')
         }
       } catch (error) {
         console.error(error)
@@ -51,7 +52,7 @@ export const AuthProvider = ({children})=>{
         const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
         const data = await response.json()
         
-        const userExist = data.some( u => u.usuario === usuario);
+        const userExist = data.some( u => u.userName === usuario);
         const emailExist = data.some( u => u.email === email);
   
         if(userExist){
