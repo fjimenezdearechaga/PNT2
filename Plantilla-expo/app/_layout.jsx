@@ -21,6 +21,9 @@ export default function RootLayout(){
                         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                         <Stack.Screen name="cambiarPass" options={{headerShown:false}}/>
                         <Stack.Screen name="cambiarImagen" options={{headerShown:false}}/>
+                        <Stack.Screen name="transactions/transactions" options={{headerTitle: 'Transacciones'}}/>
+                        <Stack.Screen name="transactions/addTransaction" options={{headerTitle: 'Agregar Transaccion'}}/>
+                        <Stack.Screen name="transactions/removeTransaction/[id]" options={{headerTitle: 'Eliminar Transaccion'}}/>
                     </Stack>
                 </DolarProvider>
             </TransactionProvider>

@@ -53,10 +53,32 @@ export const TransactionProvider = ({children}) => {
         }
     }
 
+    const removeTransaction = async (newTransaction) => {
+
+        try {
+            const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions/'+ newTransaction
+            const response = await fetch(uri, {
+                method: 'DELETE',
+            })
+            if (response.ok) {
+                const userData = await AsyncStorage.getItem('userData');
+                const userEmail = JSON.parse(JSON.parse(userData)).email
+                const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
+                const respuesta = await fetch(uri) 
+                const data = await respuesta.json()
+                const dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+                setTransactionHistory(dataSorted)
+            } else {
+                alert('Error en la eliminacion de la transaccion')
+            }
+        } catch (error) {
+            console.error('Error en la eliminacion de la transaccion', error)
+        }
+    }
 
 
     return (
-        <TransactionContext.Provider value={{ transactions, fetchTransactions, addTransaction}}>
+        <TransactionContext.Provider value={{ transactions, fetchTransactions, addTransaction, removeTransaction}}>
             {children}
         </TransactionContext.Provider>
     )
