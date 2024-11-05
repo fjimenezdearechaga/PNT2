@@ -1,31 +1,20 @@
 import { View, Text, ScrollView, Image, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
-
-import { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useEffect, useState, useContext } from 'react';
+import { DolarContext } from "../../context/DolarContext";
 
 import acciones from '../../assets/acciones.jpg';
 import dolar from '../../assets/dolar.png';
 import bonos from '../../assets/bonos.jpg';
+import transactions from '../../assets/transactions.jpg';
+
 
 export default function HomeTabScreen() {
     
     const [users, setUsers] = useState([])
+    const { dolares } = useContext(DolarContext);
+    const router  = useRouter();
 
-
-    /*Se ejecuta al inciar la vista*/ 
-    useEffect(() => { 
-      const fetchUsers = async () => {
-        try {
-            const respuesta = await fetch('https://randomuser.me/api/?results=1500')
-            const data = await respuesta.json()
-            setUsers(data.results)
-        } catch (error) {
-            console.error('error: ', error)
-        }
-      }
-
-      fetchUsers()
-    }, [])
-    
 
 
   return (
@@ -33,11 +22,26 @@ export default function HomeTabScreen() {
         
         <Text style={styles.titulo}>Cotizaciones</Text>
         <View style={styles.container}>
+            <Text style={styles.name}>Historial de transacciones</Text>
+           
+            <Image source={transactions}  style={styles.image}/>
+            <TouchableOpacity
+                    style={styles.button}
+                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    onPress={() => router.push('/transactions/transactions')}
+                    
+            >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+        </View>
+                <View style={styles.container}>
             <Text style={styles.name}>Dolar</Text>
+           
             <Image source={dolar}  style={styles.image}/>
             <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
+                    onPress={() => router.push('/dolar/dolar')}
                     
             >
                 <Text style={styles.buttonText}>Ver</Text>
@@ -49,6 +53,7 @@ export default function HomeTabScreen() {
             <TouchableOpacity
                     style={styles.button}
                     onPress={() => Alert.alert('Ir a vista de Bonos')}
+                    
                     
             >
                 <Text style={styles.buttonText}>Ver</Text>

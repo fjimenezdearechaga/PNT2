@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
 
-  const{login,register,status} = useContext(AuthContext)
+  const {login,register,status} = useContext(AuthContext)
   const [esLogin, setEsLogin] = useState(false)
   const [usuario, setUsuario ] = useState('');
   const [email, setEmail ] = useState('');
@@ -23,6 +23,7 @@ export default function Login() {
   }
 
   useEffect(()=>{
+    console.log(status)
     if(status==='authenticated'){
       router.push('/(tabs)/home')
     }
