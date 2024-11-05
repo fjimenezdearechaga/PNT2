@@ -2,19 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button,Image, StyleSheet, Text, View } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 
 export default function cambiarImagen () {
 
     const{cambiarImagen,user} = useContext(AuthContext)
     const[image,setImage] = useState('')
     const[usuario,setUsuario] = useState({})
+    const router = useRouter()
+
     useEffect(()=>{
         async function fetchData (){
-            const obj = JSON.parse(user)
             const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
             const data = await response.json()
             
-            const usuario = data.find( u => u.userName === obj.userName);
+            const usuario = data.find( u => u.userName === user.userName);
             setUsuario(usuario)
         }
         fetchData();
@@ -50,7 +52,11 @@ export default function cambiarImagen () {
     }
 
     const subirImagen = async ()=>{
-        await cambiarImagen(image,usuario)
+        if(image){
+            await cambiarImagen(image,usuario)
+        }else{
+            router.push('/(tabs)/perfil')
+        }
     }
   return (
     <View style={styles.container}>
@@ -58,12 +64,13 @@ export default function cambiarImagen () {
             <Text>Cambiar Imagen de Perfil</Text>
         </View>
         <Image style={styles.image} source={{uri:image?image:usuario.avatar}}/>
-        <Image/>
         <View style={styles.uploadContainer}>
             <Button title="Subir Imagen Galeria" style={styles.button} onPress={subirImagenGaleria}/>
             <Button title="Subir Imagen Camara" style={styles.button} onPress={subirImagenCamara}/>
-            <Button title="Terminar" style={styles.button} onPress={subirImagen}/>
-            </View>
+        </View>
+        <View>
+        <Button title="Terminar" style={styles.button} onPress={subirImagen}/>
+        </View>
     </View>
   )
 }
@@ -87,17 +94,20 @@ const styles = StyleSheet.create({
         paddingHorizontal:10
     },
     image:{
-        width: '20%',
+        width: '60%',
         height: 200,
         marginVertical: 20
     },
     button:{
-        marginTop: 20
+        marginTop: 1,
+        height:10,
+        width:10,
+        marginHorizontal:20
     },
     uploadContainer:{
-        flexDirection: 'row',
-        gap: 10, 
-        marginBottom: 30
+        flexDirection: 'column',
+        gap: 20, 
+        marginBottom: 60
     }
 }
 )

@@ -1,19 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View,StyleSheet,TextInput, Button } from 'react-native'
+import { View,StyleSheet,TextInput, Button,Text } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
+import { useRouter } from 'expo-router'
 
 export default function cambiarPass () {
 
 const{cambiarPassword,user} = useContext(AuthContext)
 const[password,setPassword] = useState('')
 const[usuario,setUsuario] = useState({})
+const router = useRouter()
+
+
 useEffect(()=>{
         async function fetchData (){
-            const obj = JSON.parse(user)
             const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
             const data = await response.json()
             
-            const usuario = data.find( u => u.userName === obj.userName);
+            const usuario = data.find( u => u.userName === user.userName);
             setUsuario(usuario)
         }
         fetchData();
@@ -21,12 +24,18 @@ useEffect(()=>{
 
 
 const cambiarPass = ()=>{
+    if(password){
     cambiarPassword(password,usuario)
+    }else{
+        router.push('/(tabs)/perfil')
+    }
 }
 
   return (
-    <View>
-        <View style={styles.titulo}>Cambiar Password</View>
+    <View style={styles.container}>
+        <View style={styles.titulo}>
+            <Text>Cambiar Password de Perfil</Text>
+        </View>
         <View style={styles.container}>
         <TextInput
         style={styles.input}
@@ -62,13 +71,10 @@ const styles = StyleSheet.create({
         marginBottom:20,
         paddingHorizontal:10
     },
-    image:{
-        width: '20%',
-        height: 200,
-        marginVertical: 20
-    },
     button:{
-        marginTop: 20
+        marginTop: 20,
+        height:50,
+        width:20
     },
     uploadContainer:{
         flexDirection: 'row',

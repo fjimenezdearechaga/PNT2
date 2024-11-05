@@ -23,7 +23,6 @@ export default function Login() {
   }
 
   useEffect(()=>{
-    console.log(status)
     if(status==='authenticated'){
       router.push('/(tabs)/home')
     }
