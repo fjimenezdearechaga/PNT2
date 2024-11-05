@@ -11,12 +11,10 @@ export default function TabPerfil(){
 
     useEffect(()=>{
         async function fetchData (){
-            const obj = JSON.parse(user)
-            console.log(obj)
             const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
             const data = await response.json()
             
-            const usuario = data.find( u => u.userName === obj.userName);
+            const usuario = data.find( u => user.userName === user.userName);
             setUsuario(usuario)
         }
         fetchData();
@@ -108,7 +106,8 @@ const styles = StyleSheet.create({
         borderRadius: 5, // Bordes redondeados
         alignItems: 'center', // Centra el contenido
         marginTop: 10, // Margen superior
-        width: 100
+        width: 100,
+        marginHorizontal:20
     },
     buttonText: {
         color: 'white', // Color del texto
