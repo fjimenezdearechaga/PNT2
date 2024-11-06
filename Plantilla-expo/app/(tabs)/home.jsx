@@ -18,7 +18,7 @@ export default function HomeTabScreen() {
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
         
         <Text style={styles.titulo}>Cotizaciones</Text>
         <View style={styles.container}>
@@ -92,7 +92,7 @@ export default function HomeTabScreen() {
         >
         </FlatList>  */}
 
-    </View>
+    </ScrollView>
   )
 }
 
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         marginTop: 10,
+        marginBottom: 30,
         paddingLeft: 20,
         paddingRight: 20
     },
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     },
     image:{
         width: 'auto',
-        height: 100,
+        height: '30vw',
         borderRadius: 15,
         
         marginTop:20,
@@ -150,7 +151,8 @@ const styles = StyleSheet.create({
         borderRadius: 5, // Bordes redondeados
         alignItems: 'center', // Centra el contenido
         marginTop: 20, // Margen superior
-        width: 'auto'
+        width: 'auto',
+        height:'50px',
     },
     buttonText: {
         color: 'white', // Color del texto
