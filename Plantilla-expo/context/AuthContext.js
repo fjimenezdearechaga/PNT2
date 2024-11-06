@@ -22,8 +22,9 @@ export const AuthProvider = ({children})=>{
                 setStatus('unauthenticated')
             }
         }
+
         cargarEstadoAuth()
-    },[user])
+    },[])
   
     const login = async (usuario,password) => {
       try {                         //esta es la mockapi del grupo 9
@@ -39,7 +40,6 @@ export const AuthProvider = ({children})=>{
             setStatus('authenticated')
         }else{
             setStatus('unauthenticated')
-            alert('Clave erronea')
         }
       } catch (error) {
         console.error(error)
