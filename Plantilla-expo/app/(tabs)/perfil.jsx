@@ -14,7 +14,7 @@ export default function TabPerfil(){
             const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
             const data = await response.json()
             
-            const usuario = data.find( u => user.userName === user.userName);
+            const usuario = data.find( u => u.userName === user.userName);
             setUsuario(usuario)
         }
         fetchData();
