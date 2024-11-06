@@ -17,12 +17,12 @@ export default function Dolar(){
         <View  style={styles.dataContainer}>  
             <View style={styles.infoContainer}>
                 <Text style={styles.name}>Moneda: {item.moneda}</Text>
-                <Text style={styles.name}>Compra: <b>{item.compra}</b></Text>
+                <Text style={styles.name}>Compra: {item.compra}</Text>
                 
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.name}>Nombre: {item.nombre}</Text>
-                <Text style={styles.name}>Venta: <b>{item.venta}</b></Text>
+                <Text style={styles.name}>Venta: {item.venta}</Text>
             </View>
             <Text style={styles.dateRefreshed}>Ultima Actualización: {new Date(item.fechaActualizacion).toLocaleString()}</Text>
         </View>
@@ -100,5 +100,8 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 10,
         maxWidth: '45%'
+    },
+    venta:{
+        fontWeight:800
     }
 })

@@ -1,11 +1,15 @@
-import { StyleSheet, View, Text, TextInput, Button, Switch } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, TextInput, Button, Switch, Alert } from 'react-native';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { AuthContext } from '../context/AuthContext';
+import * as LocalAuthentication from 'expo-local-authentication';
+
+
 
 export default function Login() {
 
-  const {login,register,status} = useContext(AuthContext)
+  const { login, register, status } = useContext(AuthContext)
+
   const [esLogin, setEsLogin] = useState(false)
   const [usuario, setUsuario ] = useState('');
   const [email, setEmail ] = useState('');
@@ -13,20 +17,58 @@ export default function Login() {
 
   const router = useRouter()
 
-
-  const handleSubmit = ()=>{
+  const handleSubmit = () => {
     if(esLogin){
-      login(usuario,password)
-    }else{
-      register(usuario,password,email)
+      console.log('intenta login');
+      login(usuario, password)
+    } else{
+      register(usuario, email, password)
     }
   }
 
-  useEffect(()=>{
-    if(status==='authenticated'){
-      router.push('/(tabs)/home')
+  const handleAuth = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync()
+    console.log('hasHardware: ', hasHardware);
+
+    if(!hasHardware) {
+      Alert.alert('Error', 'El dispositivo no tiene hardware necesario para la authenticacion biometrica')
     }
-  },[status])
+
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync()
+
+    if(!isEnrolled){
+      Alert.alert('Error', 'No hay datos biometricos registrados en el dispositivo')
+    }
+
+    console.log('isEnrolled: ', isEnrolled);
+
+    const auth = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Porfavor confirma tu identidad'
+    })
+
+    console.log('Auth: ', auth);
+
+    if(auth.success){
+      router.push('/(tabs)/home')
+    }else{
+      Alert.alert('Error', 'No se pudo verificar la identidad')
+    }
+
+  }
+
+  useEffect(() => {
+
+    if(status === 'authenticated'){
+      handleAuth()
+    }
+
+  }, [status])
+
+
+  if(status === 'checking'){
+    return <Text>Cargando...</Text>
+  }
+
 
   return (
     <View style={styles.container}>
@@ -61,6 +103,7 @@ export default function Login() {
         />
       <View style={styles.register}>
           <Button title={'Iniciar Sesion'} onPress={handleSubmit} />
+
       </View>
       <View>
         <Text>{esLogin ? "Cambia a Registro" : 'Cambia a Login'}</Text>
