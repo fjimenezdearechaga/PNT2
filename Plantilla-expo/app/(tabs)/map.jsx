@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
@@ -15,7 +15,7 @@ const MapScreen = () => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        setErrorMsg("Permiso para acceder a ubicacion fue denegado");
         return;
       }
 
@@ -29,10 +29,10 @@ const MapScreen = () => {
         );
         const addressComponents = response.data.results[0].address_components;
         const countryData = addressComponents.find(comp => comp.types.includes("country"));
-        setCountry(countryData ? countryData.long_name : "Country not found");
+        setCountry(countryData ? countryData.long_name : "Pais no encontrado");
       } catch (error) {
         console.error("Error fetching country:", error);
-        setCountry("Unable to determine country");
+        setCountry("No fue posible determinar el pais");
       }
     })();
   }, []);
@@ -57,15 +57,89 @@ const MapScreen = () => {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
           }}
-          title="You are here"
-          description={`Country: ${country}`}
+          title="Estas aca"
+          description={`Pais: ${country}`}
         />
       </MapView>
+      <View style={styles.container}>
+            <Text style={styles.name}>Pais: {country}</Text>
+           
+            <TouchableOpacity
+                    style={styles.button}                    
+            >
+                <Text style={styles.buttonText}>Valores {country}</Text>
+            </TouchableOpacity>
+        </View>
     </View>
   );
 };
 
 export default MapScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        marginTop: 10,
+        marginBottom: 10,
+        paddingLeft: 20,
+        paddingRight: 20
+    },
+    userContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#c1bdbd',
+        padding: 15,
+        marginBottom: 15,
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2},
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    image:{
+        width: 'auto',
+        height: '30vw',
+        borderRadius: 15,
+        
+        marginTop:20,
+    },
+    infoContainer: {
+        flex: 1
+    },
+    name: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333'
+    },
+    titulo:{
+        fontSize: 25,
+        textAlign: 'center',
+        marginTop: 50,
+        marginBottom: 20,
+        fontWeight: '800',
+    },
+    detalle:{
+        fontSize: 16,
+        color: '#666'
+    },
+    button:{
+        backgroundColor: '#000', // Fondo negro
+        paddingVertical: 10, // Espaciado vertical
+        paddingHorizontal: 20, // Espaciado horizontal
+        borderRadius: 5, // Bordes redondeados
+        alignItems: 'center', // Centra el contenido
+        marginTop: 20, // Margen superior
+        width: 'auto',
+        height:'50px',
+    },
+    buttonText: {
+        color: 'white', // Color del texto
+        
+    },
+    
+})
 
 
 // import { useContext, useEffect, useState } from "react";
