@@ -1,7 +1,5 @@
-import { View, Text, ScrollView, Image, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity, Alert, Dimensions } from 'react-native'
 import { useRouter } from 'expo-router';
-import { useEffect, useState, useContext } from 'react';
-import { DolarContext } from "../../context/DolarContext";
 
 import acciones from '../../assets/acciones.jpg';
 import dolar from '../../assets/dolar.png';
@@ -10,9 +8,6 @@ import transactions from '../../assets/transactions.jpg';
 
 
 export default function HomeTabScreen() {
-    
-    const [users, setUsers] = useState([])
-    const { dolares } = useContext(DolarContext);
     const router  = useRouter();
 
 
@@ -27,7 +22,6 @@ export default function HomeTabScreen() {
             <Image source={transactions}  style={styles.image}/>
             <TouchableOpacity
                     style={styles.button}
-                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
                     onPress={() => router.push('/transactions/transactions')}
                     
             >
@@ -40,8 +34,7 @@ export default function HomeTabScreen() {
             <Image source={dolar}  style={styles.image}/>
             <TouchableOpacity
                     style={styles.button}
-                    //onPress={() => Alert.alert('Ir a vista de Dolar')}
-                    onPress={() => router.push('/dolar/dolar')}
+                    onPress={() => router.push('/homeViews/dolar')}
                     
             >
                 <Text style={styles.buttonText}>Ver</Text>
@@ -65,36 +58,18 @@ export default function HomeTabScreen() {
             <Image source={acciones} style={styles.image}/>
             <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Alert.alert('Ir a vista de Acciones')}
+                    onPress={() => router.push('/homeViews/acciones')}
                 
             >
                 <Text style={styles.buttonText}>Ver</Text>
             </TouchableOpacity>
             
         </View>
-
-        
-        
-       {/* Lista de usuarios */}
-        {/* <FlatList
-            data={users}
-            keyExtractor={(item) => item.login.uuid}
-            renderItem={({item}) => (
-                <View key={item.login.uuid} style={styles.userContainer}>
-                    <Image source={{ uri: item.picture.large}} style={styles.image}/>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.name}>{item.name.first} {item.name.last}</Text>
-                        <Text style={styles.detalle}>Nacionalidad: {item.nat}</Text>
-                        <Text style={styles.detalle}>Edad: {item.dob.age}</Text>
-                    </View>
-                </View>
-            )}
-        >
-        </FlatList>  */}
-
     </ScrollView>
   )
 }
+
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -120,9 +95,8 @@ const styles = StyleSheet.create({
     },
     image:{
         width: 'auto',
-        height: '30vw',
+        height: height * 0.1, // 10% de altura la pantalla del celular en el que se vea 
         borderRadius: 15,
-        
         marginTop:20,
     },
     infoContainer: {

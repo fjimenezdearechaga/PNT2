@@ -1,17 +1,11 @@
 import { useContext } from "react";
 import { FlatList, StyleSheet, View,Text } from "react-native";
-// import { ProductContext } from "../../context/ProductContext";
-// import { ProductCard } from "../../components/products/ProductCard";
-// import { useRouter } from 'expo-router';
 import { DolarContext } from "../../context/DolarContext";
 
 export default function Dolar(){
 
 
     const { dolares } = useContext(DolarContext);
-
-    // const router  = useRouter();
-
 
     const renderItem = ({ item }) => (
         <View  style={styles.dataContainer}>  
