@@ -25,18 +25,26 @@ export default function Transactions(){
         </View>
         <View style={styles.infoContainer}>
             <Text>Instrumento: {item.instrument}</Text>
-                <Text>
-                Cantidad: <b style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>
+
+        </View>
+        <View style={styles.infoContainer}>
+        <Text>
+                Cantidad: <Text style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>
                     {item.amount}
-                    </b>
+                    </Text>
                 </Text>
         </View>
         <View style={styles.infoContainer}>
             <Text>Cotizacion: {item.rate}</Text>
-            <Text>Total: <b style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>{item.rate * item.amount}</b></Text>
+        </View>
+        <View style={styles.infoContainer}>
+        <Text>Total: <Text style={item.amount > 0 ? styles.positiveAmount: styles.negativeAmount}>{item.rate * item.amount}</Text></Text>
+
         </View>
         <View style={styles.infoContainer}>
             <Text style={styles.dateRefreshed}>Fecha de transaccion: {new Date(item.transactionDate).toLocaleString()}</Text>
+        </View>
+        <View style={styles.infoContainer}>
         </View>
 
         </View>
@@ -130,8 +138,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: 10,
+        marginRight: 10,
     },
     dateRefreshed: {
         fontStyle: 'italic',
