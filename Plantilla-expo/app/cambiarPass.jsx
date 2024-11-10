@@ -18,6 +18,8 @@ useEffect(()=>{
             
             const usuario = data.find( u => u.userName === user.userName);
             setUsuario(usuario)
+            console.log("usuario en cambiarpass: ",usuario)
+
         }
         fetchData();
     },[])

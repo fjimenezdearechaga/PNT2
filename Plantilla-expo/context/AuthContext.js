@@ -100,7 +100,9 @@ export const AuthProvider = ({children})=>{
           userName: user.userName,
           email: user.email,
           password: user.password,
-          avatar: uriAvatar
+          avatar: uriAvatar,
+          id: user.id,
+          esAdmin:user.esAdmin
         })
         const response = await fetch(`https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios/${user.id}`, {
           method: 'PUT',
@@ -112,7 +114,7 @@ export const AuthProvider = ({children})=>{
         if(response.ok){
           alert('Cambio de Imagen Exitoso')
           await AsyncStorage.setItem('userData',JSON.stringify(body))
-          setUser(body)
+          setUser(JSON.parse(body))
           router.push('/(tabs)/perfil')
         }else{
           alert('Error al cambiar la imagen')
@@ -128,7 +130,9 @@ export const AuthProvider = ({children})=>{
           userName: user.userName,
           email: user.email,
           password: newPass,
-          avatar: user.avatar
+          avatar: user.avatar,
+          id: user.id,
+          esAdmin:user.esAdmin
         })
         const response = await fetch(`https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios/${user.id}`, {
           method: 'PUT',
@@ -138,9 +142,9 @@ export const AuthProvider = ({children})=>{
           body: body
         });
         if(response.ok){
-          alert('Cambio de Password Exitoso')
           await AsyncStorage.setItem('userData',JSON.stringify(body))
-          setUser(body)
+          setUser(JSON.parse(body))
+          alert('Cambio de Password Exitoso')
           router.push('/(tabs)/perfil')
         }else{
           alert('Error al cambiar la password')

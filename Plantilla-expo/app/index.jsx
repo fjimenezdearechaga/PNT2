@@ -10,7 +10,7 @@ export default function Login() {
 
   const { login, register, status } = useContext(AuthContext)
 
-  const [esLogin, setEsLogin] = useState(false)
+  const [esLogin, setEsLogin] = useState(true)
   const [usuario, setUsuario ] = useState('');
   const [email, setEmail ] = useState('');
   const [password, setPassword ] = useState('');
