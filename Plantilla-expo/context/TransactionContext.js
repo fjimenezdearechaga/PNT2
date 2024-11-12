@@ -17,7 +17,11 @@ export const TransactionProvider = ({children}) => {
             const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
             const respuesta = await fetch(uri) 
             const data = await respuesta.json()
-            const dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+            let dataSorted = {}
+            if (!(typeof data === 'string' || data instanceof String)) {
+                dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+            }
+
             setTransactionHistory(dataSorted)
         } catch (error) {
             console.error('Error en el fetch: ', error)
@@ -44,6 +48,7 @@ export const TransactionProvider = ({children}) => {
                 const transactionCreated = await response.json();
                 const dataSorted = ( prevProducts) => [...prevProducts, transactionCreated].sort((a, b) => b.transactionDate - a.transactionDate);
 
+
                 setTransactionHistory(dataSorted)
             } else{
                 alert('Error en la carga de la transaccion')
@@ -66,7 +71,10 @@ export const TransactionProvider = ({children}) => {
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
                 const respuesta = await fetch(uri) 
                 const data = await respuesta.json()
-                const dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+                let dataSorted = {}
+                if (!(typeof data === 'string' || data instanceof String)) {
+                    dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
+                }
                 setTransactionHistory(dataSorted)
             } else {
                 alert('Error en la eliminacion de la transaccion')
