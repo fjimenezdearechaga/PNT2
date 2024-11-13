@@ -2,9 +2,6 @@ import { createContext, useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
-
-
-
 export const TransactionContext = createContext()
 
 export const TransactionProvider = ({children}) => {
@@ -46,7 +43,15 @@ export const TransactionProvider = ({children}) => {
             })
             if (response.ok) {
                 const transactionCreated = await response.json();
-                const dataSorted = ( prevProducts) => [...prevProducts, transactionCreated].sort((a, b) => b.transactionDate - a.transactionDate);
+                console.log(transactionCreated)
+                console.log(transactions)
+                let dataSorted = []
+                if (transactions.length > 0) {
+                    dataSorted = (transactions) => [...transactions, transactionCreated].sort((a, b) => b.transactionDate - a.transactionDate);
+                } else {
+                    dataSorted = [transactionCreated];
+
+                }
 
 
                 setTransactionHistory(dataSorted)
@@ -69,9 +74,9 @@ export const TransactionProvider = ({children}) => {
                 const userData = await AsyncStorage.getItem('userData');
                 const userEmail = JSON.parse(JSON.parse(userData)).email
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
-                const respuesta = await fetch(uri) 
+                const respuesta = await fetch(uri)
                 const data = await respuesta.json()
-                let dataSorted = {}
+                let dataSorted = []
                 if (!(typeof data === 'string' || data instanceof String)) {
                     dataSorted = data.sort((a, b) => b.transactionDate - a.transactionDate);
                 }
