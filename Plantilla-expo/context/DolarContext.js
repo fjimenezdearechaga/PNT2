@@ -1,14 +1,25 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, useContext } from "react"
+import { LocationContext } from "../context/LocationContext";
+
 
 export const DolarContext = createContext()
 
 export const DolarProvider = ({children}) => {
 
     const [dolares, setDolares] = useState([])
+    const { country } = useContext(LocationContext);
 
     const fetchDolares = async () => {
         try {
-            const respuesta = await fetch('https://dolarapi.com/v1/dolares') 
+            let respuesta;
+
+            if(country == "Argentina"){
+                respuesta = await fetch('https://dolarapi.com/v1/dolares') 
+            } else{
+                respuesta = await fetch('https://dolarapi.com/v1/dolares/oficial') 
+            }
+
+            
             const data = await respuesta.json()
             setDolares(data)
         } catch (error) {

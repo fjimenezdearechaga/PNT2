@@ -1,8 +1,9 @@
 import { useColorScheme } from "react-native";
 import { Stack } from 'expo-router';
 import { AuthProvider } from "../context/AuthContext";
-import { DolarContext, DolarProvider } from "../context/DolarContext";
+import { DolarProvider } from "../context/DolarContext";
 import { TransactionProvider } from "../context/TransactionContext";
+import { LocationProvider } from "../context/LocationContext";
 import React from "react";
 import ReactDOM from "react-dom";
 import { AccionesProvider } from "../context/AccionesContext";
@@ -18,21 +19,23 @@ export default function RootLayout(){
         <AuthProvider>
             <SaldoProvider>
                 <TransactionProvider>
-                    <DolarProvider>
-                        <AccionesProvider>
-                            <Stack>
-                                <Stack.Screen name="index" options={{ headerShown: false }} />
-                                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                                <Stack.Screen name="perfil/cambiarPass" options={{headerShown:false}}/>
-                                <Stack.Screen name="perfil/cambiarImagen" options={{headerShown:false}}/>
-                                <Stack.Screen name="saldo/agregarDinero" options={{headerShown:false}}/>
+                <LocationProvider>
+                        <DolarProvider>
+                            <AccionesProvider>
+                                <Stack>
+                                    <Stack.Screen name="index" options={{ headerShown: false }} />
+                                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                                    <Stack.Screen name="perfil/cambiarPass" options={{headerShown:false}}/>
+                                    <Stack.Screen name="perfil/cambiarImagen" options={{headerShown:false}}/>
+                                    <Stack.Screen name="saldo/agregarDinero" options={{headerShown:false}}/>
                                 <Stack.Screen name="saldo/sacarDinero" options={{headerShown:false}}/>
                                 <Stack.Screen name="transactions/transactions" options={{headerTitle: 'Transacciones'}}/>
-                                <Stack.Screen name="transactions/addTransaction" options={{headerTitle: 'Agregar Transaccion'}}/>
-                                <Stack.Screen name="transactions/removeTransaction/[id]" options={{headerTitle: 'Eliminar Transaccion'}}/>
-                            </Stack>
-                        </AccionesProvider>
-                    </DolarProvider>
+                                    <Stack.Screen name="transactions/addTransaction" options={{headerTitle: 'Agregar Transaccion'}}/>
+                                    <Stack.Screen name="transactions/removeTransaction/[id]" options={{headerTitle: 'Eliminar Transaccion'}}/>
+                                </Stack>
+                            </AccionesProvider>
+                        </DolarProvider>
+                </LocationProvider>
                 </TransactionProvider>
             </SaldoProvider>
         </AuthProvider>
