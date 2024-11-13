@@ -27,7 +27,7 @@ export default function Dolar(){
     return (
         <View style={styles.container}>
             <Text style={styles.name}>Estas en: {country}</Text>
-                {country != "Argentina" ? (
+                {country !== "Argentina" ? (
                     // Renderizamos un único View con el contenido de renderItem si solo hay un elemento
                     <View  style={styles.dataContainer}>  
                         <View style={styles.infoContainer}>

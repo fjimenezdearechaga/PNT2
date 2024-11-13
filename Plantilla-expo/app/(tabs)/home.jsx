@@ -42,6 +42,7 @@ export default function HomeTabScreen() {
             </TouchableOpacity>
         </View>
         <View style={styles.container}>
+            <Text style={styles.name}>Bonos</Text>
         {/* <BonosProvider>
             <Bonos >
                 <Image source={bonos}  style={styles.image}/>
@@ -64,7 +65,6 @@ export default function HomeTabScreen() {
                 >
                 <Text style={styles.buttonText}>Ver</Text>
             </TouchableOpacity>
-            <Text style={styles.name}>Bonos</Text>
         </View>
 
         <View style={styles.container}>

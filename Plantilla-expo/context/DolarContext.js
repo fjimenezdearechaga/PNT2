@@ -6,17 +6,17 @@ export const DolarContext = createContext()
 
 export const DolarProvider = ({children}) => {
 
-    const [dolares, setDolares] = useState([])
     const { country } = useContext(LocationContext);
+    const [dolares, setDolares] = useState([]);
 
     const fetchDolares = async () => {
         try {
             let respuesta;
 
             if(country == "Argentina"){
-                respuesta = await fetch('https://dolarapi.com/v1/dolares') 
+                respuesta = await fetch('https://dolarapi.com/v1/dolares'); 
             } else{
-                respuesta = await fetch('https://dolarapi.com/v1/dolares/oficial') 
+                respuesta = await fetch('https://dolarapi.com/v1/dolares/oficial'); 
             }
 
             
