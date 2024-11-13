@@ -9,16 +9,17 @@ function BonosList() {
 
     const renderItem = ({ item }) => (
         <View style={styles.dataContainer}>
-            <Text style={styles.title}>Símbolo: {item.symbol}</Text>
+            <Text style={styles.title}>Bono: US Treasury</Text>
             <Text style={styles.label}>Fecha: {item.fecha}</Text>
             <View style={styles.infoContainer}>
-                <Text style={styles.name}>Precio mas Alto: {item.rendimiento}</Text>
-                <Text style={styles.name}>Apertura: {item["1. open"]}</Text>
+                <Text></Text>
+                <Text style={styles.name}>Rendimiento Mensual: {item.rendimiento}</Text>
+                {/* <Text style={styles.name}>Apertura: {item["1. open"]}</Text> */}
             </View>
-            <View style={styles.infoContainer}>
+            {/* <View style={styles.infoContainer}>
                 <Text style={styles.name}>Precio mas Bajo: {item["3. low"]}</Text>
                 <Text style={styles.name}>Cierre: {item["4. close"]}</Text>
-            </View>
+            </View> */}
         </View>
     );
 

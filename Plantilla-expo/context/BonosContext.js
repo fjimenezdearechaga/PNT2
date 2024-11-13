@@ -7,7 +7,7 @@ export const BonosProvider = ({ children }) => {
 
     //Alpha Vantage
     //API Key: K8T3UDBRP2E42HIC
-    const url = 'https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity=1year&apikey=K8T3UDBRP2E42HIC';
+    const url = 'https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity=3month&apikey=K8T3UDBRP2E42HIC';
 
     // const fetchBonos = async () => {
     //     try {
@@ -43,7 +43,6 @@ export const BonosProvider = ({ children }) => {
             }
     
             const data = await response.json();
-            console.log(data)
     
             // Verificamos si hay datos de yields en la estructura esperada
             if (data && data.data) {
