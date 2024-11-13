@@ -6,43 +6,32 @@ import { useRouter } from "expo-router";
 export default function TabPerfil(){
 
     const{user} = useContext(AuthContext)
-    const[usuario,setUsuario] = useState({})
     const router= useRouter()
-
-    useEffect(()=>{
-        async function fetchData (){
-            const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
-            const data = await response.json()
-            
-            const usuario = data.find( u => u.userName === user.userName);
-            setUsuario(usuario)
-        }
-        fetchData();
-    },[])
+    console.log(typeof(user))
 
 
     return (
         <View style={styles.container}>
             <Text style={styles.titulo}>Perfil de Usuario</Text>
             <View style={styles.userContainer}>
-                <Image style={styles.image} source={{uri:usuario.avatar}}/>
+                <Image style={styles.image} source={{uri:user.avatar}}/>
                 <Button 
                 title="Cambiar Imagen"
                 style={styles.button}
                 onPress={()=>router.push('/cambiarImagen')}/>
             </View>
             <View style={styles.userContainer}>
-            <Text>Nombre de Usuario: {usuario.userName}</Text>
+            <Text>Nombre de Usuario: {user.userName}</Text>
             </View>
             <View style={styles.userContainer}>
-            <Text>Password: {usuario.password}</Text>
+            <Text>Password: {user.password}</Text>
             <Button 
                 title="Cambiar Password"
                 style={styles.button}
                 onPress={()=>router.push('/cambiarPass')}/>
             </View>
             <View style={styles.userContainer}>
-            <Text>Email: {usuario.email}</Text>
+            <Text>Email: {user.email}</Text>
             </View>
            
         </View>
