@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { FlatList, StyleSheet, View,Text } from "react-native";
 import { DolarContext } from "../../context/DolarContext";
+import { LocationContext } from "../../context/LocationContext";
 
 export default function Dolar(){
 
 
     const { dolares } = useContext(DolarContext);
+    const { country } = useContext(LocationContext);
 
     const renderItem = ({ item }) => (
         <View  style={styles.dataContainer}>  
@@ -24,12 +26,30 @@ export default function Dolar(){
 
     return (
         <View style={styles.container}>
-                <FlatList 
-                    data={dolares} // si no es una lista con varios datos no muestra nada
-                    keyExtractor={(item) => item.casa} // Asegúrate de que casa sea único
-                    renderItem={renderItem}
-                    contentContainerStyle={styles.flatListContainer}
-                />
+            <Text style={styles.name}>Estas en: {country}</Text>
+                {country != "Argentina" ? (
+                    // Renderizamos un único View con el contenido de renderItem si solo hay un elemento
+                    <View  style={styles.dataContainer}>  
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.name}>Moneda: {dolares.moneda}</Text>
+                            <Text style={styles.name}>Compra: {dolares.compra}</Text>
+                            
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.name}>Nombre: {dolares.nombre}</Text>
+                            <Text style={styles.name}>Venta: {dolares.venta}</Text>
+                        </View>
+                        <Text style={styles.dateRefreshed}>Ultima Actualización: {new Date(dolares.fechaActualizacion).toLocaleString()}</Text>
+                    </View>
+                ) : (
+                    // Si hay más de un elemento, usa FlatList
+                    <FlatList
+                        data={dolares}
+                        keyExtractor={(item) => item.casa} // Asegúrate de que 'casa' sea único
+                        renderItem={renderItem}
+                        contentContainerStyle={styles.flatListContainer}
+                    />
+                )}
         </View>
     )
 }
@@ -39,7 +59,8 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         marginBottom: 40,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     button:{
         

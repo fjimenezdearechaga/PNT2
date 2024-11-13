@@ -1,44 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useRouter } from 'expo-router';
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from "expo-location";
 import axios from "axios";
+import { LocationContext } from "../../context/LocationContext";
+
 
 const GOOGLE_API_KEY = "AIzaSyD8z8UA02zF_TovyeVrffTNuFQIvhHRjkQ";
 
 const MapScreen = () => {
-  const [location, setLocation] = useState(null);
-  const [country, setCountry] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const { country } = useContext(LocationContext);
+  const { errorMsg } = useContext(LocationContext);
+  const { coords } = useContext(LocationContext);
+  const router  = useRouter();
+  
+  // const [location, setLocation] = useState(null);
+  // const [country, setCountry] = useState(null);
+  // const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permiso para acceder a ubicacion fue denegado");
-        return;
-      }
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permiso para acceder a ubicacion fue denegado");
+  //       return;
+  //     }
 
-      let userLocation = await Location.getCurrentPositionAsync({});
-      setLocation(userLocation);
+  //     let userLocation = await Location.getCurrentPositionAsync({});
+  //     setLocation(userLocation);
 
-      const { latitude, longitude } = userLocation.coords;
-      try {
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
-        );
-        const addressComponents = response.data.results[0].address_components;
-        const countryData = addressComponents.find(comp => comp.types.includes("country"));
-        setCountry(countryData ? countryData.long_name : "Pais no encontrado");
-      } catch (error) {
-        console.error("Error fetching country:", error);
-        setCountry("No fue posible determinar el pais");
-      }
-    })();
-  }, []);
+  //     const { latitude, longitude } = userLocation.coords;
+
+     
+
+
+  //     try {
+  //       const response = await axios.get(
+  //         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
+  //       );
+  //       const addressComponents = response.data.results[0].address_components;
+  //       const countryData = addressComponents.find(comp => comp.types.includes("country"));
+
+
+  //       setCountry(countryData ? countryData.long_name : "Pais no encontrado");
+        
+
+  //     } catch (error) {
+  //       console.error("Error fetching country:", error);
+  //       setCountry("No fue posible determinar el pais");
+  //     }
+  //   })();
+  // }, []);
 
   if (errorMsg) return <Text>{errorMsg}</Text>;
-  if (!location) return <Text>Loading...</Text>;
+  if (!country) return <Text>Loading...</Text>;
 
   return (
     <View style={{ flex: 1 }}>
@@ -46,16 +62,16 @@ const MapScreen = () => {
         //provider={PROVIDER_GOOGLE} // Use Google Maps
         style={{ flex: 1 }}
         region={{
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         }}
       >
         <Marker
           coordinate={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
+            latitude: coords.latitude,
+            longitude: coords.longitude,
           }}
           title="Estas aca"
           description={`Pais: ${country}`}
@@ -65,9 +81,10 @@ const MapScreen = () => {
             <Text style={styles.name}>Pais: {country}</Text>
            
             <TouchableOpacity
-                    style={styles.button}                    
+                    style={styles.button}     
+                    onPress={() => router.push('/homeViews/dolar')}               
             >
-                <Text style={styles.buttonText}>Valores {country}</Text>
+                <Text style={styles.buttonText}>Valores Para {country}</Text>
             </TouchableOpacity>
         </View>
     </View>
