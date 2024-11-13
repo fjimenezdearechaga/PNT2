@@ -1,5 +1,8 @@
-import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity, Alert, Dimensions } from 'react-native'
+import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
+
+//import { BonosProvider } from  "../context/BonosContext";
+import BonosPage from "../homeViews/bonos.jsx";
 
 import acciones from '../../assets/acciones.jpg';
 import dolar from '../../assets/dolar.png';
@@ -9,7 +12,6 @@ import transactions from '../../assets/transactions.jpg';
 
 export default function HomeTabScreen() {
     const router  = useRouter();
-
 
   return (
     <ScrollView style={styles.container}>
@@ -40,16 +42,29 @@ export default function HomeTabScreen() {
             </TouchableOpacity>
         </View>
         <View style={styles.container}>
-            <Text style={styles.name}>Bonos</Text>
-            <Image source={bonos}  style={styles.image}/>
-            <TouchableOpacity
+        {/* <BonosProvider>
+            <Bonos >
+                <Image source={bonos}  style={styles.image}/>
+                <TouchableOpacity
                     style={styles.button}
-                    onPress={() => Alert.alert('Ir a vista de Bonos')}
+                    onPress={() => router.push('/homeViews/bonos')}
                     
                     
-            >
+                >
                 <Text style={styles.buttonText}>Ver</Text>
             </TouchableOpacity>
+            <Text style={styles.name}>Bonos</Text>
+            </Bonos>
+            </BonosProvider> */}
+            
+                <Image source={bonos}  style={styles.image}/>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push('/homeViews/bonos')}       
+                >
+                <Text style={styles.buttonText}>Ver</Text>
+            </TouchableOpacity>
+            <Text style={styles.name}>Bonos</Text>
         </View>
 
         <View style={styles.container}>
