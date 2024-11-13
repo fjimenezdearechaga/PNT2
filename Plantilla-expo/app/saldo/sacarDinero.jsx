@@ -1,51 +1,38 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { View,StyleSheet,TextInput, Button,Text } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
 import { useRouter } from 'expo-router'
+import { SaldoContext } from '../../context/SaldoContext'
+import { AuthContext } from '../../context/AuthContext'
 
-export default function cambiarPass () {
+export default function sacarDinero () {
 
-const{cambiarPassword,user} = useContext(AuthContext)
-const[password,setPassword] = useState('')
-const[usuario,setUsuario] = useState({})
+const{removeSaldo} = useContext(SaldoContext)
+const{user} = useContext(AuthContext)
+const[saldoRemovido,setSaldoRemovido] = useState('')
 const router = useRouter()
 
 
-useEffect(()=>{
-        async function fetchData (){
-            const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
-            const data = await response.json()
-            
-            const usuario = data.find( u => u.userName === user.userName);
-            setUsuario(usuario)
-            console.log("usuario en cambiarpass: ",usuario)
-
-        }
-        fetchData();
-    },[])
-
-
-const cambiarPass = ()=>{
-    if(password){
-    cambiarPassword(password,usuario)
+const finalizarMovimiento = ()=>{
+    if(saldoRemovido){
+    removeSaldo(parseFloat(saldoRemovido),user)
     }else{
-        router.push('/(tabs)/perfil')
+        router.push('/(tabs)/saldo')
     }
 }
 
   return (
     <View style={styles.container}>
         <View style={styles.titulo}>
-            <Text>Cambiar Password de Perfil</Text>
+            <Text>Sacar Dinero</Text>
         </View>
         <View style={styles.container}>
         <TextInput
         style={styles.input}
-        placeholder='Ingrese nueva password'
-        value={password}
-        onChangeText={setPassword}/>
+        placeholder='Ingrese cantidad'
+        value={saldoRemovido}
+        onChangeText={setSaldoRemovido}/>
          <View style={styles.uploadContainer}>
-            <Button title="Cambiar Password" style={styles.button} onPress={cambiarPass}/>
+            <Button title="Finalizar movimiento" style={styles.button} onPress={finalizarMovimiento}/>
         </View>
     </View>
 

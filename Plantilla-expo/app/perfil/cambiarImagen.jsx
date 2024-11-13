@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button,Image, StyleSheet, Text, View } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 

@@ -1,37 +1,37 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Text, View,StyleSheet,Image,Button } from "react-native";
-import { AuthContext } from "../../context/AuthContext";
 import { useRouter } from "expo-router";
+import { SaldoContext } from "../../context/SaldoContext";
 
-export default function TabPerfil(){
+export default function TabSaldo(){
 
-    const{user} = useContext(AuthContext)
+    const{fetchSaldo,saldo} = useContext(SaldoContext)
     const router= useRouter()
+
+    useEffect(()=>{
+        fetchSaldo()
+    })
+
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Perfil de Usuario</Text>
+            <Text style={styles.titulo}>Billetera</Text>
+    
             <View style={styles.userContainer}>
-                <Image style={styles.image} source={{uri:user.avatar}}/>
-                <Button 
-                title="Cambiar Imagen"
-                style={styles.button}
-                onPress={()=>router.push('/perfil/cambiarImagen')}/>
+            <Text>Saldo: {saldo}</Text>
             </View>
             <View style={styles.userContainer}>
-            <Text>Nombre de Usuario: {user.userName}</Text>
-            </View>
-            <View style={styles.userContainer}>
-            <Text>Password: {user.password}</Text>
             <Button 
-                title="Cambiar Password"
+                title="Agregar dinero"
                 style={styles.button}
-                onPress={()=>router.push('/perfil/cambiarPass')}/>
+                onPress={()=>router.push('/saldo/agregarDinero')}/>
             </View>
             <View style={styles.userContainer}>
-            <Text>Email: {user.email}</Text>
+            <Button 
+                title="Sacar dinero"
+                style={styles.button}
+                onPress={()=>router.push('/saldo/sacarDinero')}/>
             </View>
-           
         </View>
     )
 

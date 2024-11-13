@@ -40,6 +40,15 @@ export default function TabLayout(){
                     )
                 }}
             />
+            <Tabs.Screen
+                name="saldo"
+                options={{
+                    title: "Saldo",
+                    tabBarIcon: ({color, focused}) => (
+                        <Ionicons size={28} name={focused ? 'cash' : 'cash-outline'} color={color}/>
+                    )
+                }}
+            />
         </Tabs>
     )
 }
