@@ -30,7 +30,6 @@ export const LocationProvider = ({children}) => {
     //   latitude: -33.115404,
     //   longitude: -56.472096
     // };
-
     // const { latitude, longitude } = coords;
 
     setCoords({ latitude, longitude });
