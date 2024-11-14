@@ -35,7 +35,7 @@ export const BonosProvider = ({ children }) => {
     const fetchBonos = async () => {
         try {
             const response = await fetch(url);
-    
+            console.log(response);
             // Verifica el tipo de contenido de la respuesta para confirmar que es JSON
             const contentType = response.headers.get("content-type");
             if (!contentType || !contentType.includes("application/json")) {

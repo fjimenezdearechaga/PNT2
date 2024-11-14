@@ -1,13 +1,14 @@
 import { createContext, useEffect, useState, useContext } from "react"
 import { LocationContext } from "../context/LocationContext";
+import { AuthContext } from "../context/AuthContext";
 
 
 export const DolarContext = createContext()
 
 export const DolarProvider = ({children}) => {
-
-    const { country } = useContext(LocationContext);
     const [dolares, setDolares] = useState([]);
+    const { country } = useContext(LocationContext);
+    const { login } = useContext(AuthContext);
 
     const fetchDolares = async () => {
         try {
@@ -18,9 +19,12 @@ export const DolarProvider = ({children}) => {
             } else{
                 respuesta = await fetch('https://dolarapi.com/v1/dolares/oficial'); 
             }
-
+            
             
             const data = await respuesta.json()
+            // console.log('dolares:');
+             console.log(data);
+            
             setDolares(data)
         } catch (error) {
             console.error('Error en el fetch: ', error)
@@ -29,7 +33,7 @@ export const DolarProvider = ({children}) => {
 
     useEffect(() => {
         fetchDolares()
-    }, [])
+    }, [login.success, country])
 
 
     return (
