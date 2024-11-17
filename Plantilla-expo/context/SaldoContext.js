@@ -21,7 +21,12 @@ export const SaldoProvider = ({children}) => {
                     const saldoActual = data[0].saldo
                     setSaldo(saldoActual)
                 }else{
-                    await generarSaldo()
+                    await generarSaldo(email)
+                    const respuesta = await fetch(uri) 
+                    const data = await respuesta.json()
+                    const saldoActual = data[0].saldo
+                    setSaldo(saldoActual)
+                    
                 }
             }
 

@@ -12,7 +12,7 @@ const{user} = useContext(AuthContext)
 const[saldoAgregado,setSaldoAgregado] = useState('')
 const router = useRouter()
 
-const finalizarMovimiento = ()=>{
+const finalizarDeposito = ()=>{
     if(saldoAgregado){
     addSaldo(parseFloat(saldoAgregado),user)
     }else{
@@ -32,7 +32,7 @@ const finalizarMovimiento = ()=>{
         value={saldoAgregado}
         onChangeText={setSaldoAgregado}/>
          <View style={styles.uploadContainer}>
-            <Button title="Finalizar movimiento" style={styles.button} onPress={finalizarMovimiento}/>
+            <Button title="Finalizar deposito" style={styles.button} onPress={finalizarDeposito}/>
         </View>
     </View>
 
