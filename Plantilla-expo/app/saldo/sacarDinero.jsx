@@ -12,7 +12,7 @@ const[saldoRemovido,setSaldoRemovido] = useState('')
 const router = useRouter()
 
 
-const finalizarMovimiento = ()=>{
+const finalizarExtraccion = ()=>{
     if(saldoRemovido){
     removeSaldo(parseFloat(saldoRemovido),user)
     }else{
@@ -32,7 +32,7 @@ const finalizarMovimiento = ()=>{
         value={saldoRemovido}
         onChangeText={setSaldoRemovido}/>
          <View style={styles.uploadContainer}>
-            <Button title="Finalizar movimiento" style={styles.button} onPress={finalizarMovimiento}/>
+            <Button title="Finalizar extraccion" style={styles.button} onPress={finalizarExtraccion}/>
         </View>
     </View>
 

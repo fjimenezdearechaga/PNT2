@@ -47,7 +47,7 @@ export const AuthProvider = ({children})=>{
       }
     }
   
-    const register = async (usuario,password,email) => {
+    const register = async (usuario,email,password) => {
       try {
         const response = await fetch('https://6705586b031fd46a830f9e40.mockapi.io/api/v1/usuarios');
         const data = await response.json()
@@ -81,8 +81,8 @@ export const AuthProvider = ({children})=>{
           if(response.ok){
             alert('Registro Exitoso') //si el registro es exitoso, lo guarda en el localstorage
             await AsyncStorage.setItem('isAuthenticated','true')
-            await AsyncStorage.setItem('userData',JSON.stringify(body))
-            setUser(body)
+            await AsyncStorage.setItem('userData',body)
+            setUser(JSON.parse(body))
             setStatus('authenticated')
           }else{
             alert('Error al registrar el usuario')
@@ -113,7 +113,7 @@ export const AuthProvider = ({children})=>{
         });
         if(response.ok){
           alert('Cambio de Imagen Exitoso')
-          await AsyncStorage.setItem('userData',JSON.stringify(body))
+          await AsyncStorage.setItem('userData',body)
           setUser(JSON.parse(body))
           router.push('/(tabs)/perfil')
         }else{
@@ -142,7 +142,7 @@ export const AuthProvider = ({children})=>{
           body: body
         });
         if(response.ok){
-          await AsyncStorage.setItem('userData',JSON.stringify(body))
+          await AsyncStorage.setItem('userData',body)
           setUser(JSON.parse(body))
           alert('Cambio de Password Exitoso')
           router.push('/(tabs)/perfil')
