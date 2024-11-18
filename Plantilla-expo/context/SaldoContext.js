@@ -11,23 +11,24 @@ export const SaldoProvider = ({children}) => {
     const fetchSaldo = async () => {
         try{
             const userData = await AsyncStorage.getItem('userData');
-            const dataParsed = await JSON.parse(userData)
-            if(dataParsed){
-                const email = dataParsed.email
+            const dataParsed = await JSON.parse(JSON.parse(userData))
+            const email = dataParsed.email
+            if(email){ 
+
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + email
-                const respuesta = await fetch(uri) 
+                const respuesta = await fetch(uri)  
+                
                 const data = await respuesta.json()
-                if (!(typeof data === 'string' || data instanceof String || data[0]===undefined)) {
+
+                if (!(typeof data === 'string' || data instanceof String || respuesta.status === 404)) {
                     const saldoActual = data[0].saldo
-                    setSaldo(saldoActual)
-                }else{
+                    setSaldo(saldoActual) 
+                }else{ 
                     await generarSaldo(email)
-                    const respuesta = await fetch(uri) 
-                    const data = await respuesta.json()
-                    const saldoActual = data[0].saldo
-                    setSaldo(saldoActual)
-                    
+                    await fetchSaldo()
                 }
+            } else {
+                console.error("Usuario es undefined")
             }
 
             }catch(error){
@@ -45,8 +46,8 @@ export const SaldoProvider = ({children}) => {
 
         try {
             const body = JSON.stringify({
-                userId: userEmail,
-                saldo: 0
+                "userId": userEmail,
+                "saldo": 0
               })
             await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo', {
                 method: 'POST',
@@ -59,25 +60,27 @@ export const SaldoProvider = ({children}) => {
             console.error('Error en la carga de saldo', error)
         }
     }
-    const addSaldo = async (saldoAgregado,user) => {
+    const addSaldo = async (saldoAgregado) => {
+        const userData = await AsyncStorage.getItem('userData');
+        const userEmail = await JSON.parse(JSON.parse(userData)).email
         const saldoFinal = saldo+saldoAgregado
+        if (userEmail && saldoAgregado) {
             try {
                 const body = JSON.stringify({
-                    userId:user.email,
-                    saldo:saldoFinal,
-                  })
-                const respuesta = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo')
+                    "userId": userEmail,
+                    "saldo": saldoFinal,
+                    })
+                const respuesta = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + userEmail)
                 const data = await respuesta.json()
-                const saldoUsuario = data.find( u => u.userId===user.email );
-                const uri = `https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo/${saldoUsuario.id}`
+                const idSaldoUsuario = data[0].id;
+                const uri = `https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo/${idSaldoUsuario}`
                 const response = await fetch(uri, {
                     method: 'PUT',
                     headers:{
                         'Content-Type':'application/json'
-                      },
+                        },
                     body:body
                 })
-                
                 if (response.ok) {
                     alert('agregacion de saldo exitosa')
                     setSaldo(saldoFinal)
@@ -91,22 +94,28 @@ export const SaldoProvider = ({children}) => {
             } catch (error) {
                 console.error('Error en la agregacion de saldo', error)
             }
+            
+        } else {
+            console.error('Error en la carga de saldo')
+        }
+
 
     }
 
-    const removeSaldo = async (saldoRemovido,user) => {
+    const removeSaldo = async (saldoRemovido) => {
             try {
-                const respuesta = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo')
-                const data = await respuesta.json()
-                const saldoUsuario = data.find( u => u.userId===user.email );
-                const saldoFinal = saldoUsuario.saldo-saldoRemovido
-        
+                const userData = await AsyncStorage.getItem('userData');
+                const userEmail = await JSON.parse(JSON.parse(userData)).email
+                const respuestaGetSaldo = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + userEmail)
+                const data = await respuestaGetSaldo.json()
+                const saldoUsuario = data[0].saldo;
+                const idSaldoUsuario = data[0].id
+                const saldoFinal = saldoUsuario-saldoRemovido
                 if(saldoFinal>=0){
                     const body = JSON.stringify({
-                        saldo:saldoFinal,
-                        userId:user.email
+                        "saldo":saldoFinal,
                       })
-                    const uri = `https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo/${saldoUsuario.id}`
+                    const uri = `https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo/${idSaldoUsuario}`
                     const response = await fetch(uri, {
                         method: 'PUT',
                         headers:{
@@ -136,3 +145,4 @@ export const SaldoProvider = ({children}) => {
         </SaldoContext.Provider>
     )
 }
+

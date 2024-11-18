@@ -81,7 +81,9 @@ export default function addTransactionScreen(){
         } else {
             data = accionesData
         }
-        data.forEach(getValues)
+        console.log(data)
+        data.forEach(getValues);
+
 
         return rates
     }
@@ -98,7 +100,7 @@ export default function addTransactionScreen(){
         } else {
             data = bonosData
         }
-        data.forEach(getValues)
+        data.forEach(getValues);
 
         return rates
     }
@@ -106,15 +108,22 @@ export default function addTransactionScreen(){
     const getListOfUsd = (dolaresData)=>{
         let rates = {}
         let data = []
+        console.log(data)
         function getValues(item) {
             rates["Dolar " + item["nombre"]] = item["venta"];
           }
-        if (!dolaresData instanceof Array) {
-            data = [dolaresData] 
-        } else {
+        if (Array.isArray(dolaresData)) {
+            console.log(2)
             data = dolaresData
+
+        } else {
+            console.log(1)
+            data.push(dolaresData)
         }
-        data.forEach(getValues)
+        console.log("!!!!!")
+        console.log(!dolaresData instanceof Array)
+        console.log(data)
+        data.forEach(getValues);
         return rates
     }
 
