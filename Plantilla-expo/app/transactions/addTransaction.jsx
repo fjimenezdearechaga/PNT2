@@ -5,11 +5,20 @@ import { TextInput, View, StyleSheet, Button, Text} from "react-native"
 import {Picker} from '@react-native-picker/picker';
 import { useRouter } from "expo-router";
 import { TransactionContext } from "../../context/TransactionContext";
+import { DolarContext } from "../../context/DolarContext";
+import { AccionesContext } from "../../context/AccionesContext";
+import { BonosContext } from "../../context/BonosContext";
+import { SaldoContext } from "../../context/SaldoContext";
 
 
 export default function addTransactionScreen(){
 
     const { addTransaction } = useContext(TransactionContext)
+    const { dolares } = useContext(DolarContext)
+    const { acciones } = useContext(AccionesContext)
+    const { bonos } = useContext(BonosContext)
+    const { saldo } = useContext(SaldoContext)
+    
 
     const [ instrument, setInstrument ] = useState('')
     const [ amount, setAmount ] = useState(0)
@@ -38,32 +47,74 @@ export default function addTransactionScreen(){
     }
     const generatePicklist = ()=>{
 
-
+        
         const rows = []
-        const casita = getListOfRates()
+        const rates = getListOfRates()
 
-        Object.entries(casita).forEach(([key, value]) => {
+        Object.entries(rates).forEach(([key, value]) => {
             rows.push(<Picker.Item label={key} value={key} />);
         });
         return rows
     }
     const setRateLogic = (rateName)=>{
         const rate = getValueFromDict(getListOfRates(), rateName);
-        console.log(rate)
         return rate
     }
 
     const getListOfRates = ()=>{
-        const dataAcciones = {}
-        const dataUsd = {}
-        const rates = {
-            'USDT': 1150.30,
-            'USD': 1120.32,
-            'AL29': 1150.30,
-            'AL30': 1120.32,
-            'MERVAL': 123.32
-            }
+        console.log(saldo)
+        // const dataBonos = getListOfBonos(bonos)  # Comentado hasta que tengamos una api de bonos copada
+        const dataAcciones = getListOfAcciones(acciones)
+        const dataUsd = getListOfUsd(dolares)
+        const rates = Object.assign({}, dataUsd, dataAcciones);
+        return rates
+    }
+    const getListOfAcciones = (accionesData)=>{
+        let rates = {}
+        let data = []
+        function getValues(item) {
+            rates["Accion " + item["symbol"]] = item["4. close"];
+          }
 
+        if (!accionesData instanceof Array) {
+            data = [accionesData] 
+        } else {
+            data = accionesData
+        }
+        data.forEach(getValues)
+
+        return rates
+    }
+    const getListOfBonos = (bonosData)=>{
+        let rates = {}
+        let data = []
+        console.log(bonosData)
+        function getValues(item) {
+            rates["Accion " + item["symbol"]] = item["4. close"];
+          }
+
+        if (!bonosData instanceof Array) {
+            data = [bonosData] 
+        } else {
+            data = bonosData
+        }
+        data.forEach(getValues)
+
+        return rates
+    }
+
+    const getListOfUsd = (dolaresData)=>{
+        let rates = {}
+        let data = []
+        function getValues(item) {
+            rates["Dolar " + item["nombre"]] = item["venta"];
+          }
+        if (!dolaresData instanceof Array) {
+            data = [dolaresData] 
+        } else {
+            data = dolaresData
+        }
+        data.forEach(getValues)
         return rates
     }
 
