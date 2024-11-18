@@ -8,7 +8,6 @@ import { TransactionContext } from "../../context/TransactionContext";
 import { DolarContext } from "../../context/DolarContext";
 import { AccionesContext } from "../../context/AccionesContext";
 import { BonosContext } from "../../context/BonosContext";
-import { SaldoContext } from "../../context/SaldoContext";
 
 
 export default function addTransactionScreen(){
@@ -17,7 +16,6 @@ export default function addTransactionScreen(){
     const { dolares } = useContext(DolarContext)
     const { acciones } = useContext(AccionesContext)
     const { bonos } = useContext(BonosContext)
-    const { saldo } = useContext(SaldoContext)
     
 
     const [ instrument, setInstrument ] = useState('')
@@ -28,7 +26,7 @@ export default function addTransactionScreen(){
 
     const registerTransaction = async () => {
         const userData = await AsyncStorage.getItem('userData');
-        const userDataParsed = JSON.parse(JSON.parse(userData))
+        const userDataParsed = await JSON.parse(userData)
         const currentTimestamp = Math.floor(Date.now() / 1000);
 
 
@@ -41,7 +39,8 @@ export default function addTransactionScreen(){
             userId: userDataParsed.email
         }
 
-        console.log("Nueva transaccion es: ", newTransaction);
+
+        
         addTransaction(newTransaction)
         router.push('/transactions/transactions')
     }
@@ -62,7 +61,6 @@ export default function addTransactionScreen(){
     }
 
     const getListOfRates = ()=>{
-        console.log(saldo)
         // const dataBonos = getListOfBonos(bonos)  # Comentado hasta que tengamos una api de bonos copada
         const dataAcciones = getListOfAcciones(acciones)
         const dataUsd = getListOfUsd(dolares)
@@ -76,12 +74,13 @@ export default function addTransactionScreen(){
             rates["Accion " + item["symbol"]] = item["4. close"];
           }
 
-        if (!accionesData instanceof Array) {
-            data = [accionesData] 
-        } else {
+        if (Array.isArray(accionesData)) {
             data = accionesData
+        } else {
+            data.push(accionesData)
         }
-        console.log(data)
+
+        
         data.forEach(getValues);
 
 
@@ -90,15 +89,13 @@ export default function addTransactionScreen(){
     const getListOfBonos = (bonosData)=>{
         let rates = {}
         let data = []
-        console.log(bonosData)
         function getValues(item) {
             rates["Accion " + item["symbol"]] = item["4. close"];
           }
-
-        if (!bonosData instanceof Array) {
-            data = [bonosData] 
-        } else {
+        if (Array.isArray(bonosData)) {
             data = bonosData
+        } else {
+            data.push(bonosData)
         }
         data.forEach(getValues);
 
@@ -108,21 +105,16 @@ export default function addTransactionScreen(){
     const getListOfUsd = (dolaresData)=>{
         let rates = {}
         let data = []
-        console.log(data)
+
         function getValues(item) {
             rates["Dolar " + item["nombre"]] = item["venta"];
           }
         if (Array.isArray(dolaresData)) {
-            console.log(2)
             data = dolaresData
-
         } else {
-            console.log(1)
             data.push(dolaresData)
         }
-        console.log("!!!!!")
-        console.log(!dolaresData instanceof Array)
-        console.log(data)
+
         data.forEach(getValues);
         return rates
     }

@@ -14,10 +14,10 @@ const router = useRouter()
 
 const finalizarExtraccion = ()=>{
     if(saldoRemovido){
-    removeSaldo(parseFloat(saldoRemovido))
-    }else{
-        router.push('/(tabs)/saldo')
+        removeSaldo(parseFloat(saldoRemovido))
     }
+    router.push('/(tabs)/saldo')        
+
 }
 
   return (

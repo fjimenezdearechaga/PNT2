@@ -13,7 +13,6 @@ export default function removeTransactionScreen(){
     const { removeTransaction } = useContext(TransactionContext)
 
     const deleteTransaction = async () => {
-        console.log("Transaccion a eliminar: ", id);
         removeTransaction(id)
         router.push('/transactions/transactions')
     }

@@ -14,10 +14,11 @@ const router = useRouter()
 
 const finalizarDeposito = ()=>{
     if(saldoAgregado){
-    addSaldo(parseFloat(saldoAgregado))
-    }else{
-        router.push('/(tabs)/saldo')
+        addSaldo(parseFloat(saldoAgregado))
+
     }
+        router.push('/(tabs)/saldo')
+
 }
 
   return (

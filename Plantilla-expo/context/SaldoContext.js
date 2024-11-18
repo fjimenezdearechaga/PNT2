@@ -11,7 +11,7 @@ export const SaldoProvider = ({children}) => {
     const fetchSaldo = async () => {
         try{
             const userData = await AsyncStorage.getItem('userData');
-            const dataParsed = await JSON.parse(JSON.parse(userData))
+            const dataParsed = await JSON.parse(userData)
             const email = dataParsed.email
             if(email){ 
 
@@ -62,7 +62,7 @@ export const SaldoProvider = ({children}) => {
     }
     const addSaldo = async (saldoAgregado) => {
         const userData = await AsyncStorage.getItem('userData');
-        const userEmail = await JSON.parse(JSON.parse(userData)).email
+        const userEmail = await JSON.parse(userData).email
         const saldoFinal = saldo+saldoAgregado
         if (userEmail && saldoAgregado) {
             try {
@@ -82,21 +82,20 @@ export const SaldoProvider = ({children}) => {
                     body:body
                 })
                 if (response.ok) {
-                    alert('agregacion de saldo exitosa')
+                    alert('Operacion exitosa')
                     setSaldo(saldoFinal)
-                    router.push('/saldo')
                 }
                 else{
-                    console.error('Error en la agregacion de saldo')
+                    console.error('Error en la operacion')
 
                 }
 
             } catch (error) {
-                console.error('Error en la agregacion de saldo', error)
+                console.error('Error en la operacion', error)
             }
             
         } else {
-            console.error('Error en la carga de saldo')
+            console.error('Error en la operacion')
         }
 
 
@@ -105,7 +104,7 @@ export const SaldoProvider = ({children}) => {
     const removeSaldo = async (saldoRemovido) => {
             try {
                 const userData = await AsyncStorage.getItem('userData');
-                const userEmail = await JSON.parse(JSON.parse(userData)).email
+                const userEmail = await JSON.parse(userData).email
                 const respuestaGetSaldo = await fetch('https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + userEmail)
                 const data = await respuestaGetSaldo.json()
                 const saldoUsuario = data[0].saldo;
@@ -124,18 +123,18 @@ export const SaldoProvider = ({children}) => {
                         body:body
                         })
                     if (response.ok) {
-                        alert('reduccion de saldo exitosa')
+                        alert('Operacion exitosa')
                         setSaldo(saldoFinal)
-                        router.push('/saldo')
+
                     } else {
-                         alert('Error en la reduccion de saldo')
+                         alert('Error en la reduccion operacion')
                 }
                 }else{
                     alert('Saldo insuficiente. El saldo actual es: ' + saldo)
                 }
                   
             } catch (error) {
-                console.error('Error en la reduccion de saldo', error)
+                console.error('Error en la reduccion operacion', error)
             }
         }
 

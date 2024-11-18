@@ -18,8 +18,9 @@ export default function RootLayout(){
 
     return (
         <AuthProvider>
-            <TransactionProvider>
-                <SaldoProvider>
+            <SaldoProvider>
+                <TransactionProvider>
+
                     <LocationProvider>
                             <DolarProvider>
                                 <AccionesProvider>
@@ -39,8 +40,8 @@ export default function RootLayout(){
                                 </AccionesProvider>
                             </DolarProvider>
                     </LocationProvider>
-                </SaldoProvider>
-            </TransactionProvider>
+                </TransactionProvider>
+            </SaldoProvider>
         </AuthProvider>
         
     )
