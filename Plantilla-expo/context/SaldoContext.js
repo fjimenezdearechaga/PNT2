@@ -17,7 +17,7 @@ export const SaldoProvider = ({children}) => {
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + email
                 const respuesta = await fetch(uri) 
                 const data = await respuesta.json()
-                if (!(typeof data === 'string' || data instanceof String)) {
+                if (!(typeof data === 'string' || data instanceof String || data[0]===undefined)) {
                     const saldoActual = data[0].saldo
                     setSaldo(saldoActual)
                 }else{
