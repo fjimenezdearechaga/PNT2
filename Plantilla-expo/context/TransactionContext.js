@@ -80,7 +80,7 @@ export const TransactionProvider = ({children}) => {
                 console.error('Error en la carga de la transaccion', error)
             }
         } else {
-            console.error("Saldo insuficiente")
+            alert("Saldo insuficiente")
         }
 
     }
