@@ -94,7 +94,7 @@ export const TransactionProvider = ({children}) => {
             })
             if (response.ok) {
                 const userData = await AsyncStorage.getItem('userData');
-                const userEmail = JSON.parse(JSON.parse(userData)).email
+                const userEmail = await JSON.parse(userData).email
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/transactions?userId=' + userEmail
                 const respuesta = await fetch(uri)
                 const data = await respuesta.json()
