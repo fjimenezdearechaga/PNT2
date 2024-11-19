@@ -12,8 +12,8 @@ export const SaldoProvider = ({children}) => {
         try{
             const userData = await AsyncStorage.getItem('userData');
             const dataParsed = await JSON.parse(userData)
-            const email = dataParsed.email
-            if(email){ 
+            if(dataParsed){ 
+                const email = dataParsed.email
 
                 const uri = 'https://6726ad8c302d03037e6e174e.mockapi.io/api/v1/saldo?userId=' + email
                 const respuesta = await fetch(uri)  
