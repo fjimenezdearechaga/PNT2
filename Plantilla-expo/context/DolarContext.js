@@ -22,8 +22,6 @@ export const DolarProvider = ({children}) => {
             
             
             const data = await respuesta.json()
-            // console.log('dolares:');
-            //console.log(data);
             
             setDolares(data)
         } catch (error) {
