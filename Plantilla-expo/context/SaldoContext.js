@@ -64,7 +64,7 @@ export const SaldoProvider = ({children}) => {
         const userData = await AsyncStorage.getItem('userData');
         const userEmail = await JSON.parse(userData).email
         const saldoFinal = saldo+saldoAgregado
-        if (userEmail && saldoAgregado) {
+        if (userEmail && saldoFinal > 0) {
             try {
                 const body = JSON.stringify({
                     "userId": userEmail,

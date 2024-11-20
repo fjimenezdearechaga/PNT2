@@ -65,10 +65,11 @@ export const TransactionProvider = ({children}) => {
     
                     }
                     if (sumSaldo) {
-                        addSaldo(transactionAmount)
+                        addSaldo(transactionAmount * -1)
                         router.push('/transactions/transactions')
                     } else {
                         removeSaldo(transactionAmount)
+                        router.push('/transactions/transactions')
                     }
     
                     
