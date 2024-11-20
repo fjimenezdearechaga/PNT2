@@ -22,13 +22,13 @@ export default function TabSaldo(){
             </View>
             <View style={styles.userContainer}>
             <Button 
-                title="Agregar dinero"
+                title="Depositar dinero"
                 style={styles.button}
                 onPress={()=>router.push('/saldo/agregarDinero')}/>
             </View>
             <View style={styles.userContainer}>
             <Button 
-                title="Sacar dinero"
+                title="Retirar dinero"
                 style={styles.button}
                 onPress={()=>router.push('/saldo/sacarDinero')}/>
             </View>

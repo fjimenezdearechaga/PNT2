@@ -24,10 +24,11 @@ const finalizarDeposito = ()=>{
   return (
     <View style={styles.container}>
         <View style={styles.titulo}>
-            <Text>Agregar Dinero</Text>
+            <Text>Depositar Dinero</Text>
         </View>
         <View style={styles.container}>
         <TextInput
+        inputMode='numeric'
         style={styles.input}
         placeholder='Ingrese cantidad'
         value={saldoAgregado}

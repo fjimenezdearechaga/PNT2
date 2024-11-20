@@ -20,7 +20,6 @@ export default function RootLayout(){
         <AuthProvider>
             <SaldoProvider>
                 <TransactionProvider>
-
                     <LocationProvider>
                             <DolarProvider>
                                 <AccionesProvider>
@@ -30,11 +29,14 @@ export default function RootLayout(){
                                             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                                             <Stack.Screen name="perfil/cambiarPass" options={{headerShown:false}}/>
                                             <Stack.Screen name="perfil/cambiarImagen" options={{headerShown:false}}/>
-                                            <Stack.Screen name="saldo/agregarDinero" options={{headerShown:false}}/>
-                                            <Stack.Screen name="saldo/sacarDinero" options={{headerShown:false}}/>
+                                            <Stack.Screen name="saldo/agregarDinero" options={{headerTitle: 'Depositar dinero'}}/>
+                                            <Stack.Screen name="saldo/sacarDinero" options={{headerTitle: 'Retirar dinero'}}/>
                                             <Stack.Screen name="transactions/transactions" options={{headerTitle: 'Transacciones'}}/>
                                             <Stack.Screen name="transactions/addTransaction" options={{headerTitle: 'Agregar Transaccion'}}/>
                                             <Stack.Screen name="transactions/removeTransaction/[id]" options={{headerTitle: 'Eliminar Transaccion'}}/>
+                                            <Stack.Screen name="homeViews/acciones" options={{headerTitle: 'Acciones'}}/>
+                                            <Stack.Screen name="homeViews/bonos" options={{headerTitle: 'Bonos'}}/>
+                                            <Stack.Screen name="homeViews/dolar" options={{headerTitle: 'Dolares'}}/>
                                         </Stack>
                                     </BonosProvider>
                                 </AccionesProvider>

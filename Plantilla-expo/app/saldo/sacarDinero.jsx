@@ -23,10 +23,11 @@ const finalizarExtraccion = ()=>{
   return (
     <View style={styles.container}>
         <View style={styles.titulo}>
-            <Text>Sacar Dinero</Text>
+            <Text>Retirar Dinero</Text>
         </View>
         <View style={styles.container}>
         <TextInput
+        inputMode='numeric'
         style={styles.input}
         placeholder='Ingrese cantidad'
         value={saldoRemovido}
