@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     image:{
         width: 'auto',
-        height: height * 0.1, // 10% de altura la pantalla del celular en el que se vea 
+        height: height * 0.15, // 10% de altura la pantalla del celular en el que se vea 
         borderRadius: 15,
         marginTop:20,
     },
